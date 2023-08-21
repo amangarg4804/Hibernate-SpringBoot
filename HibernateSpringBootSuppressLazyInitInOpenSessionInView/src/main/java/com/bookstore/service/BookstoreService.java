@@ -4,6 +4,8 @@ import com.bookstore.entity.Author;
 import com.bookstore.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class BookstoreService {
 
@@ -19,6 +21,11 @@ public class BookstoreService {
         return author;
     }
 
+    //@Transactional
+    // Adding transactional annotation results in exception and transaction is rolled back ,
+    // org.hibernate.HibernateException: A collection
+    // with cascade="all-delete-orphan" was no longer referenced by the owning entity instance:
+    // com.bookstore.entity.Author.books
     public Author fetchAuthorWithoutBooks() {
         Author author = authorRepository.findByName("Joana Nimar");
 

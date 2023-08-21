@@ -29,13 +29,13 @@ public class MainApplication {
             System.out.println("Persisting several authors ...");
             bookstoreService.createAuthors();
 
-            System.out.println("\nFetch authors older than 40  ...");
-            List<Author> authorsOld40 = bookstoreService.fetchAuthorsByAgeGreaterThanEqual(40);
-            System.out.println(authorsOld40);
-
-            System.out.println("\nFetch the avatar of author with id 1  ...");
-            byte[] authorAvatar = bookstoreService.fetchAuthorAvatarViaId(1L);
-            System.out.println(authorAvatar.length + " bytes");
+//            System.out.println("\nFetch authors older than 40  ...");
+//            List<Author> authorsOld40 = bookstoreService.fetchAuthorsByAgeGreaterThanEqual(40);
+//            System.out.println(authorsOld40);
+//
+//            System.out.println("\nFetch the avatar of author with id 1  ...");
+//            byte[] authorAvatar = bookstoreService.fetchAuthorAvatarViaId(1L);
+//            System.out.println(authorAvatar.length + " bytes");
 
             System.out.println("\nN+1 (avoid this)  ...");
             List<Author> authorsDetails = bookstoreService.fetchAuthorsDetailsByAgeGreaterThanEqual(40);

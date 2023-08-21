@@ -61,14 +61,14 @@ public class BookstoreService {
         return author.getAvatar();
     }
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public List<Author> fetchAuthorsDetailsByAgeGreaterThanEqual(int age) {
 
         List<Author> authors = authorRepository.findByAgeGreaterThanEqual(40);
 
         // don't do this since this is a N+1 case
         authors.forEach(a -> {
-            a.getAvatar();
+            System.out.println(a.getAvatar());
         });
 
         return authors;

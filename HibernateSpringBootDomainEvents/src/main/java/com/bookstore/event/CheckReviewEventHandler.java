@@ -3,8 +3,10 @@ package com.bookstore.event;
 import com.bookstore.entity.BookReview;
 import com.bookstore.entity.ReviewStatus;
 import com.bookstore.repository.BookReviewRepository;
+
 import java.util.Random;
 import java.util.logging.Logger;
+
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,9 +24,22 @@ public class CheckReviewEventHandler {
         this.bookReviewRepository = bookReviewRepository;
     }
 
-    @Async
+    //    @Async
     @TransactionalEventListener
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    /** case 1: if we don't use @transactional annotation. By default, this method runs after the previous transaction
+     *  has already commited. it will still use the previous transaction but changes won't be propagated to DB
+     case 2: using @Transactional won't fix the situation. Using TransactionPhase.AFTER_COMPLETION won't fix the situation
+     case 3: using Propagation.REQUIRES_NEW fixes the situation. It's not a cost free operation.
+     It now creates two long running transactionsinstead of 1
+     case 4: Without @Transactional using TransactionPhase.BEFORE_COMMIT: updates book review + only one long running
+     transaction But if you really need to commit the previous transaction this is not an option
+     case 5: Using auto-commit=false and provider_disables_autocommit=true and Propagation.REQUIRES_NEW: This time,
+     the transaction required via Propagation.REQUIRES_NEW is delayed until you call bookReviewRepository.save(bookReview);.
+     This means that the long process of checking the book review will hold open a single database connection instead of two.
+     This is a little bit better, but still not acceptable.
+     case 6: In all above cases,i.e,synchronous the postReview method blocks till review event is done.
+     **/
     public void handleCheckReviewEvent(CheckReviewEvent event) {
 
         BookReview bookReview = event.getBookReview();

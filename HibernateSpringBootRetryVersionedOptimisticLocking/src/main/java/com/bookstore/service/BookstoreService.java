@@ -17,6 +17,7 @@ public class BookstoreService implements Runnable {
     @Override
     @Retry(times = 10, on = OptimisticLockingFailureException.class)    
     public void run() {
+        System.out.println("*********************Retrying**************");
         inventoryService.updateQuantity();
     }
 }
