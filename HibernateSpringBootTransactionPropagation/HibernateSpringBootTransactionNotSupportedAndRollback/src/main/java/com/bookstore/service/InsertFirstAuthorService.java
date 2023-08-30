@@ -23,9 +23,9 @@ public class InsertFirstAuthorService {
 
         Author author = new Author();
         author.setName("Joana Nimar");
-
+        System.out.println("***************saving first author************");
         authorRepository.save(author);
-
+        System.out.println("***************saved first author************");
         insertSecondAuthorService.insertSecondAuthor();
     }
 }

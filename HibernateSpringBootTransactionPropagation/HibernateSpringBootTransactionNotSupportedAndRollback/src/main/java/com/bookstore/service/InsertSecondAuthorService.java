@@ -16,14 +16,22 @@ public class InsertSecondAuthorService {
         this.authorRepository = authorRepository;
     }
 
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+//    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void insertSecondAuthor() {
 
         Author author = new Author();
         author.setName("Alicia Tom");
-
+        System.out.println("***************saving second author************");
         authorRepository.save(author);
+        System.out.println("***************saved second author************");
+        // Case 1: When method is annotated with @Transactional(propagation = Propagation.NOT_SUPPORTED)
+        // note that since Alicia Tom is saved outside of transaction created by insertFirstAuthor method,
+        // the exception thrown below doesn't rollback insertion of Alicia Tom,
+        // it only rolls back the insertFirstAuthor transaction
 
+        // Case 2: When method is not annotated with @Transactional. The transaction created by insertFirstAuthor
+        // method doesn't get suspended. The save method above participates in same transaction and doesn't create a new transaction
+        // If there is an exception from below code, since it is only one transaction, both Alicia tom and Joana Nimar inserts are rolled back
         if (new Random().nextBoolean()) {
             throw new RuntimeException("DummyException: this should cause "
                     + "rollback of the insert triggered in insertFirstAuthor() !");
