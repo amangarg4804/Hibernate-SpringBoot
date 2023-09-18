@@ -27,5 +27,6 @@ public class InsertFirstAuthorService {
         authorRepository.save(author);
         System.out.println("***************saved first author************");
         insertSecondAuthorService.insertSecondAuthor();
+        author.setName("Aman Garg");
     }
 }
