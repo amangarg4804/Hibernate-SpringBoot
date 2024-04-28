@@ -14,6 +14,7 @@ public class BookstoreService2 implements Runnable {
     }
      
     @Override
+    // The retry annotation should have been here for the retry to work
     public void run() {
         inventoryService2.updateQuantity();
     }

@@ -40,6 +40,8 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <!-- change version to 8.0.20 in case of mysql connection errors-->
+            <version>8.0.20</version>
             <scope>runtime</scope>
         </dependency>        
         <dependency>
